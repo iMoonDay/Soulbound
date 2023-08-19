@@ -4,8 +4,7 @@
   "package": "com.imoonday.soulbound.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-  ],
-  "client": [
+    "PlayerInventoryMixin"
   ],
   "injectors": {
     "defaultRequire": 1
