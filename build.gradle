@@ -14,6 +14,14 @@ repositories {
     // for more information about repositories.
     maven { url "https://maven.shedaniel.me/" }
     maven { url "https://maven.terraformersmc.com/releases/" }
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven {
+        name = "Ladysnake Libs"
+        url = 'https://maven.ladysnake.org/releases'
+    }
 }
 
 dependencies {
@@ -30,6 +38,10 @@ dependencies {
     }
 
     modApi "com.terraformersmc:modmenu:7.1.0"
+
+    modImplementation "dev.emi:trinkets:3.7.0"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.2.0"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.2.0"
     }
 
 processResources {

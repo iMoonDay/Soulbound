@@ -1,6 +1,9 @@
 package com.imoonday.soulbound;
 
+import dev.emi.trinkets.api.TrinketEnums;
+import dev.emi.trinkets.api.event.TrinketDropCallback;
 import me.shedaniel.autoconfig.AutoConfig;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
@@ -10,7 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
 
-class SoulBoundEnchantment extends Enchantment {
+public class SoulBoundEnchantment extends Enchantment {
+
+    private static boolean curios = FabricLoader.getInstance().isModLoaded("trinkets");
+
     public SoulBoundEnchantment() {
         super(Rarity.RARE, EnchantmentTarget.BREAKABLE, EquipmentSlot.values());
     }
@@ -50,7 +56,7 @@ class SoulBoundEnchantment extends Enchantment {
                 ItemStack newStack = newPlayer.getInventory().getStack(i);
                 int level = EnchantmentHelper.getLevel(SoulBound.SOUL_BOUND, oldStack);
                 if (level > 0 && !ItemStack.areEqual(oldStack, newStack)) {
-                    if (getConfig().maxDamagePercent != 0 && !oldPlayer.isCreative()) {
+                    if (getConfig().maxDamagePercent != 0 && !oldPlayer.isCreative() && oldStack.isDamageable()) {
                         oldStack.damage(oldPlayer.getRandom().nextInt(oldStack.getMaxDamage() * getConfig().maxDamagePercent / 100), oldPlayer.getRandom(), oldPlayer);
                         if (oldStack.getDamage() >= oldStack.getMaxDamage()) {
                             if (getConfig().allowBreakItem) {
@@ -67,6 +73,30 @@ class SoulBoundEnchantment extends Enchantment {
                     }
                 }
             }
+        }
+    }
+
+    public static void registerTrinketDropCallback() {
+        if (curios) {
+            TrinketDropCallback.EVENT.register((rule, stack, ref, entity) -> {
+                if (!(entity instanceof ServerPlayerEntity player)) {
+                    return rule;
+                }
+                if (EnchantmentHelper.getLevel(SoulBound.SOUL_BOUND, stack) > 0) {
+                    if (getConfig().maxDamagePercent != 0 && !player.isCreative() && stack.isDamageable()) {
+                        stack.damage(player.getRandom().nextInt(stack.getMaxDamage() * getConfig().maxDamagePercent / 100), player.getRandom(), player);
+                        if (stack.getDamage() >= stack.getMaxDamage()) {
+                            if (getConfig().allowBreakItem) {
+                                return TrinketEnums.DropRule.DESTROY;
+                            } else {
+                                stack.setDamage(stack.getMaxDamage() - 1);
+                            }
+                        }
+                    }
+                    return TrinketEnums.DropRule.KEEP;
+                }
+                return rule;
+            });
         }
     }
 
