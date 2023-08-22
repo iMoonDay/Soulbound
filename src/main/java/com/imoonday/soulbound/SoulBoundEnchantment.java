@@ -51,7 +51,7 @@ public class SoulBoundEnchantment extends Enchantment {
                 ItemStack newStack = newPlayer.getInventory().getItem(i);
                 int level = EnchantmentHelper.getTagEnchantmentLevel(Soulbound.SOUL_BOUND_ENCHANTMENT.get(), oldStack);
                 if (level > 0 && !ItemStack.matches(oldStack, newStack)) {
-                    if (Config.maxDamagePercent != 0 && !oldPlayer.isCreative()) {
+                    if (Config.maxDamagePercent != 0 && !oldPlayer.isCreative() && oldStack.isDamageableItem()) {
                         oldStack.hurt(oldPlayer.getRandom().nextInt(oldStack.getMaxDamage() * Config.maxDamagePercent / 100), oldPlayer.getRandom(), oldPlayer);
                         if (oldStack.getDamageValue() >= oldStack.getMaxDamage()) {
                             if (Config.allowBreakItem) {
