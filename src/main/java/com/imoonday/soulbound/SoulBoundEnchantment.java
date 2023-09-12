@@ -1,5 +1,7 @@
 package com.imoonday.soulbound;
 
+import com.tiviacz.travelersbackpack.component.ComponentUtils;
+
 import dev.emi.trinkets.api.TrinketEnums;
 import dev.emi.trinkets.api.event.TrinketDropCallback;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -16,6 +18,7 @@ import net.minecraft.world.GameRules;
 public class SoulBoundEnchantment extends Enchantment {
 
     private static boolean curios = FabricLoader.getInstance().isModLoaded("trinkets");
+    private static boolean travelersBackpack = FabricLoader.getInstance().isModLoaded("travelersbackpack");
 
     public SoulBoundEnchantment() {
         super(Rarity.RARE, EnchantmentTarget.BREAKABLE, EquipmentSlot.values());
@@ -70,6 +73,23 @@ public class SoulBoundEnchantment extends Enchantment {
                         newPlayer.getInventory().setStack(i, oldStack);
                     } else {
                         newPlayer.getInventory().offerOrDrop(oldStack);
+                    }
+                }
+            }
+
+            if (travelersBackpack) {
+                if (ComponentUtils.isWearingBackpack(oldPlayer)) {
+                    ItemStack backpack = ComponentUtils.getWearingBackpack(oldPlayer);
+                    int level = EnchantmentHelper.getLevel(SoulBound.SOUL_BOUND, backpack);
+                    if (level > 0) {
+                        if (ComponentUtils.isWearingBackpack(newPlayer)) {
+                            newPlayer.getInventory().offerOrDrop(backpack);
+                        } else {
+                            ComponentUtils.getComponent(newPlayer).setWearable(backpack);
+                            ComponentUtils.getComponent(newPlayer).setContents(backpack);
+                            ComponentUtils.sync(newPlayer);
+                            ComponentUtils.syncToTracking(newPlayer);
+                        }
                     }
                 }
             }
