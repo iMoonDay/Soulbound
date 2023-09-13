@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "soulbound.refmap.json",
   "mixins": [
+    "BackpackUtilsMixin",
     "InventoryMixin",
     "ServerPlayerMixin"
   ],
