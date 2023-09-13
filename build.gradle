@@ -22,6 +22,17 @@ repositories {
         name = "Ladysnake Libs"
         url = 'https://maven.ladysnake.org/releases'
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 dependencies {
@@ -42,6 +53,7 @@ dependencies {
     modImplementation "dev.emi:trinkets:3.7.0"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.2.0"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.2.0"
+    modImplementation "maven.modrinth:travelersbackpack:XFdxMe7g"
     }
 
 processResources {
