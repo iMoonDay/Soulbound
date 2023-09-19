@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BackpackUtils.class)
+@Mixin(value = BackpackUtils.class, remap = false)
 public class BackpackUtilsMixin {
     @Inject(method = "onPlayerDeath", at = @At("HEAD"), cancellable = true)
     private static void handleOnPlayerDeath(Level level, Player player, ItemStack stack, CallbackInfo ci) {
