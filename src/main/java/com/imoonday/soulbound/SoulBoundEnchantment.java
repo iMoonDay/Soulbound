@@ -1,6 +1,8 @@
 package com.imoonday.soulbound;
 
 import com.tiviacz.travelersbackpack.capability.CapabilityUtils;
+import com.tiviacz.travelersbackpack.capability.ITravelersBackpack;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,6 +13,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameRules;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.event.DropRulesEvent;
@@ -79,21 +82,23 @@ public class SoulBoundEnchantment extends Enchantment {
                 }
             }
 
+            newPlayer.sendSystemMessage(Component.literal("travelersBackpack:"));
             if (travelersBackpack) {
                 if (CapabilityUtils.isWearingBackpack(oldPlayer)) {
                     ItemStack backpack = CapabilityUtils.getWearingBackpack(oldPlayer);
                     int level = EnchantmentHelper.getTagEnchantmentLevel(Soulbound.SOUL_BOUND_ENCHANTMENT.get(), backpack);
                     if (level > 0) {
-                        if (CapabilityUtils.isWearingBackpack(newPlayer)) {
+                        LazyOptional<ITravelersBackpack> capability = CapabilityUtils.getCapability(newPlayer);
+                        if (!capability.isPresent()) {
                             newPlayer.getInventory().placeItemBackInInventory(backpack);
-                        } else {
-                            CapabilityUtils.getCapability(newPlayer).ifPresent(iTravelersBackpack -> {
-                                iTravelersBackpack.setWearable(backpack);
-                                iTravelersBackpack.setContents(backpack);
-                            });
-                            CapabilityUtils.synchronise(newPlayer);
-                            CapabilityUtils.synchroniseToOthers(newPlayer);
+                            return;
                         }
+                        capability.ifPresent(iTravelersBackpack -> {
+                            iTravelersBackpack.setWearable(backpack);
+                            iTravelersBackpack.setContents(backpack);
+                        });
+                        CapabilityUtils.synchronise(newPlayer);
+                        CapabilityUtils.synchroniseToOthers(newPlayer);
                     }
                 }
             }
