@@ -2,7 +2,6 @@ package com.imoonday.soulbound;
 
 import com.tiviacz.travelersbackpack.capability.CapabilityUtils;
 import com.tiviacz.travelersbackpack.capability.ITravelersBackpack;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -82,7 +81,6 @@ public class SoulBoundEnchantment extends Enchantment {
                 }
             }
 
-            newPlayer.sendSystemMessage(Component.literal("travelersBackpack:"));
             if (travelersBackpack) {
                 if (CapabilityUtils.isWearingBackpack(oldPlayer)) {
                     ItemStack backpack = CapabilityUtils.getWearingBackpack(oldPlayer);
@@ -94,11 +92,20 @@ public class SoulBoundEnchantment extends Enchantment {
                             return;
                         }
                         capability.ifPresent(iTravelersBackpack -> {
-                            iTravelersBackpack.setWearable(backpack);
-                            iTravelersBackpack.setContents(backpack);
+                            ItemStack wearable = iTravelersBackpack.getWearable();
+                            ItemStack content = iTravelersBackpack.getContainer().getItemStack();
+                            boolean areNull = wearable == null && content == null;
+                            boolean areEmpty = wearable != null && content != null && wearable.isEmpty() && content.isEmpty();
+                            boolean areEqual = backpack.equals(wearable) && backpack.equals(content);
+                            if (areNull || areEmpty || areEqual) {
+                                iTravelersBackpack.setWearable(backpack);
+                                iTravelersBackpack.setContents(backpack);
+                                iTravelersBackpack.synchronise();
+                                iTravelersBackpack.synchroniseToOthers(newPlayer);
+                            } else {
+                                newPlayer.getInventory().placeItemBackInInventory(backpack);
+                            }
                         });
-                        CapabilityUtils.synchronise(newPlayer);
-                        CapabilityUtils.synchroniseToOthers(newPlayer);
                     }
                 }
             }
