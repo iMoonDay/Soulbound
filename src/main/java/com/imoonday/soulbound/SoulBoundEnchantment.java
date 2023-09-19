@@ -12,11 +12,12 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameRules;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.event.DropRulesEvent;
 import top.theillusivec4.curios.api.type.capability.ICurio;
+
+import java.util.Optional;
 
 public class SoulBoundEnchantment extends Enchantment {
 
@@ -86,12 +87,10 @@ public class SoulBoundEnchantment extends Enchantment {
                     ItemStack backpack = CapabilityUtils.getWearingBackpack(oldPlayer);
                     int level = EnchantmentHelper.getTagEnchantmentLevel(Soulbound.SOUL_BOUND_ENCHANTMENT.get(), backpack);
                     if (level > 0) {
-                        LazyOptional<ITravelersBackpack> capability = CapabilityUtils.getCapability(newPlayer);
-                        if (!capability.isPresent()) {
-                            newPlayer.getInventory().placeItemBackInInventory(backpack);
-                            return;
-                        }
-                        capability.ifPresent(iTravelersBackpack -> {
+                        Optional<ITravelersBackpack> optional = CapabilityUtils.getCapability(newPlayer).resolve();
+                        boolean synchronised = false;
+                        if (optional.isPresent()) {
+                            ITravelersBackpack iTravelersBackpack = optional.get();
                             ItemStack wearable = iTravelersBackpack.getWearable();
                             ItemStack content = iTravelersBackpack.getContainer().getItemStack();
                             boolean areNull = wearable == null && content == null;
@@ -102,10 +101,12 @@ public class SoulBoundEnchantment extends Enchantment {
                                 iTravelersBackpack.setContents(backpack);
                                 iTravelersBackpack.synchronise();
                                 iTravelersBackpack.synchroniseToOthers(newPlayer);
-                            } else {
-                                newPlayer.getInventory().placeItemBackInInventory(backpack);
+                                synchronised = true;
                             }
-                        });
+                        }
+                        if (!synchronised) {
+                            newPlayer.getInventory().placeItemBackInInventory(backpack);
+                        }
                     }
                 }
             }
