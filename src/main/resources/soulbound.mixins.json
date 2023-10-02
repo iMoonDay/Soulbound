@@ -6,6 +6,7 @@
   "refmap": "soulbound.refmap.json",
   "mixins": [
     "BackpackUtilsMixin",
+    "EnchantmentHelperMixin",
     "InventoryMixin",
     "ServerPlayerMixin"
   ],
