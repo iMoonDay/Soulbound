@@ -7,5 +7,15 @@
   "text.autoconfig.soulbound.option.allowBreakItem": "允许损坏物品",
   "text.autoconfig.soulbound.option.maxDamagePercent": "最大损坏百分比",
   "text.autoconfig.soulbound.option.minPower": "最小权重",
-  "text.autoconfig.soulbound.option.powerRange": "权重范围"
+  "text.autoconfig.soulbound.option.powerRange": "权重范围",
+  "text.autoconfig.soulbound.option.blacklist": "黑名单",
+  "text.autoconfig.soulbound.option.blacklist.@Tooltip": "例:(仅原版物品支持省略前缀)\nminecraft:diamond_sword{Damage:0}\nminecraft:diamond_sword\ndiamond_sword\nminecraft:diamond_sword*\ndiamond_sword*",
+  "text.autoconfig.soulbound.option.whitelist": "白名单",
+  "text.autoconfig.soulbound.option.whitelist.@Tooltip": "例:(仅原版物品支持省略前缀)\nminecraft:diamond_sword{Damage:0}\nminecraft:diamond_sword\ndiamond_sword\nminecraft:diamond_sword*\ndiamond_sword*",
+  "text.autoconfig.soulbound.option.compatibilityMode": "兼容模式",
+  "text.autoconfig.soulbound.option.compatibilityMode.blacklistAndDefault": "默认+黑名单",
+  "text.autoconfig.soulbound.option.compatibilityMode.blacklistOnly": "仅黑名单",
+  "text.autoconfig.soulbound.option.compatibilityMode.whitelistAndDefault": "默认+白名单",
+  "text.autoconfig.soulbound.option.compatibilityMode.whitelistOnly": "仅白名单",
+  "text.autoconfig.soulbound.option.compatibilityMode.default": "默认"
 }
