@@ -1,4 +1,19 @@
 {
   "enchantment.soulbound.soulbound": "灵魂绑定",
-  "enchantment.soulbound.soulbound.desc": "在死亡时自动保留该物品并随机损伤"
+  "enchantment.soulbound.soulbound.desc": "在死亡时自动保留该物品并随机损伤",
+  "config.soulbound.conflictWithVanishingCurse": "与消失诅咒冲突",
+  "config.soulbound.isTreasure": "宝藏附魔(即附魔台无法刷出)",
+  "config.soulbound.allowBreakItem": "允许损坏物品",
+  "config.soulbound.maxDamagePercent": "最大损坏百分比",
+  "config.soulbound.minPower": "最小权重",
+  "config.soulbound.powerRange": "权重范围",
+  "config.soulbound.blacklist": "黑名单",
+  "config.soulbound.whitelist": "白名单",
+  "config.soulbound.listExample": "例:(仅原版物品支持省略前缀)",
+  "config.soulbound.compatibilityMode": "兼容模式",
+  "config.soulbound.compatibilityMode.blacklistAndDefault": "默认+黑名单",
+  "config.soulbound.compatibilityMode.blacklistOnly": "仅黑名单",
+  "config.soulbound.compatibilityMode.whitelistAndDefault": "默认+白名单",
+  "config.soulbound.compatibilityMode.whitelistOnly": "仅白名单",
+  "config.soulbound.compatibilityMode.default": "默认"
 }

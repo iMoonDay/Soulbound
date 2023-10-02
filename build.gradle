@@ -147,6 +147,18 @@ repositories {
     maven {
         url = "https://maven.theillusivec4.top/"
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        forRepositories(fg.repository)
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 dependencies {
@@ -176,6 +188,7 @@ dependencies {
 
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.19.2-5.1.4.1")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.19.2-5.1.4.1:api")
+    implementation fg.deobf("maven.modrinth:travelersbackpack:1.19.2-8.2.30")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
