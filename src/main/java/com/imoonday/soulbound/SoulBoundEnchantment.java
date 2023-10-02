@@ -1,5 +1,6 @@
 package com.imoonday.soulbound;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.tiviacz.travelersbackpack.component.ComponentUtils;
 import dev.emi.trinkets.api.TrinketEnums;
 import dev.emi.trinkets.api.event.TrinketDropCallback;
@@ -10,12 +11,20 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.enchantment.VanishingCurseEnchantment;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
+
+import java.util.List;
 
 public class SoulBoundEnchantment extends Enchantment {
 
+    public static final String IGNORED_NBT = "*";
     private static boolean curios = FabricLoader.getInstance().isModLoaded("trinkets");
     private static boolean travelersBackpack = FabricLoader.getInstance().isModLoaded("travelersbackpack");
 
@@ -43,7 +52,71 @@ public class SoulBoundEnchantment extends Enchantment {
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
+        switch (getConfig().compatibilityMode) {
+            case WHITELIST_ONLY -> {
+                return hasMatchItemStack(getConfig().whitelist, stack);
+            }
+            case BLACKLIST_ONLY -> {
+                return hasMatchItemStack(getConfig().blacklist, stack);
+            }
+            case WHITELIST_AND_DEFAULT -> {
+                if (!hasMatchItemStack(getConfig().whitelist, stack)) {
+                    return false;
+                }
+            }
+            case BLACKLIST_AND_DEFAULT -> {
+                if (hasMatchItemStack(getConfig().blacklist, stack)) {
+                    return false;
+                }
+            }
+        }
         return stack.isDamageable() || !stack.isStackable() || super.isAcceptableItem(stack);
+    }
+
+    public static boolean hasMatchItemStack(List<String> list, ItemStack stack) {
+        return list.stream().anyMatch(s -> match(stack, s));
+    }
+
+    public static boolean match(ItemStack stack, String s) {
+        if (s.endsWith(IGNORED_NBT)) {
+            String id = s.split("\\*", 2)[0];
+            Identifier identifier = Identifier.tryParse(id);
+            if (identifier == null) {
+                identifier = Identifier.tryParse(Identifier.DEFAULT_NAMESPACE + ":" + id);
+            }
+            if (identifier == null) {
+                return false;
+            }
+            Item item = Registry.ITEM.get(identifier);
+            return stack.isOf(item);
+        }
+        String[] split = s.split("\\{", 2);
+        if (split.length > 0) {
+            Identifier identifier = Identifier.tryParse(split[0]);
+            if (identifier == null) {
+                identifier = Identifier.tryParse(Identifier.DEFAULT_NAMESPACE + ":" + split[0]);
+            }
+            if (identifier == null) {
+                return false;
+            }
+            NbtCompound nbt = null;
+            if (split.length > 1) {
+                try {
+                    nbt = StringNbtReader.parse("{" + split[1]);
+                } catch (CommandSyntaxException ignored) {
+
+                }
+            }
+            Item item = Registry.ITEM.get(identifier);
+            if (item != null) {
+                ItemStack itemStack = new ItemStack(item);
+                if (nbt != null) {
+                    itemStack.setNbt(nbt);
+                }
+                return ItemStack.canCombine(itemStack, stack);
+            }
+        }
+        return false;
     }
 
     @Override
