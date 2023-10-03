@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.imoonday.soulbound.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "soulbound.refmap.json",
+  "mixins": [
+    "BackpackUtilsMixin",
+    "EnchantmentHelperMixin",
+    "InventoryMixin",
+    "ServerPlayerMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
