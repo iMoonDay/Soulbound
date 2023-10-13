@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "soulbound",
+  "version": "${version}",
+  "name": "Soulbound",
+  "description": "",
+  "authors": [
+    "iMoonDay"
+  ],
+  "contact": {
+    "repo": "https://github.com/iMoonDay/Soulbound"
+  },
+  "license": "MIT",
+  "icon": "assets/soulbound/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.imoonday.soulbound.SoulBound"
+    ],
+    "modmenu": [
+      "com.imoonday.soulbound.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "soulbound.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

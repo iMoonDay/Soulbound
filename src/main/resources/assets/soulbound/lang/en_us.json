@@ -1,0 +1,21 @@
+{
+  "enchantment.soulbound.soulbound": "SoulBound",
+  "enchantment.soulbound.soulbound.desc": "The item is automatically retained upon death and randomly damaged",
+  "text.autoconfig.soulbound.title": "SoulBound",
+  "text.autoconfig.soulbound.option.conflictWithVanishingCurse": "Conflict with the Disappearance Curse",
+  "text.autoconfig.soulbound.option.isTreasure": "Treasure enchantment (i.e. the enchantment table cannot be swiped)",
+  "text.autoconfig.soulbound.option.allowBreakItem": "Damage to items is allowed",
+  "text.autoconfig.soulbound.option.maxDamagePercent": "Max percentage of damage",
+  "text.autoconfig.soulbound.option.minPower": "Min power",
+  "text.autoconfig.soulbound.option.powerRange": "Power range",
+  "text.autoconfig.soulbound.option.blacklist": "Blacklist",
+  "text.autoconfig.soulbound.option.blacklist.@Tooltip": "Example:(Only vanilla items support omitting prefixes)\nminecraft:diamond_sword{Damage:0}\nminecraft:diamond_sword\ndiamond_sword\nminecraft:diamond_sword*\ndiamond_sword*",
+  "text.autoconfig.soulbound.option.whitelist": "Whitelist",
+  "text.autoconfig.soulbound.option.whitelist.@Tooltip": "Example:(Only vanilla items support omitting prefixes)\nminecraft:diamond_sword{Damage:0}\nminecraft:diamond_sword\ndiamond_sword\nminecraft:diamond_sword*\ndiamond_sword*",
+  "text.autoconfig.soulbound.option.compatibilityMode": "Compatibility Mode",
+  "text.autoconfig.soulbound.option.compatibilityMode.blacklistAndDefault": "Default + Blacklist",
+  "text.autoconfig.soulbound.option.compatibilityMode.blacklistOnly": "Blacklist Only",
+  "text.autoconfig.soulbound.option.compatibilityMode.whitelistAndDefault": "Default + Whitelist",
+  "text.autoconfig.soulbound.option.compatibilityMode.whitelistOnly": "Whitelist Only",
+  "text.autoconfig.soulbound.option.compatibilityMode.default": "Default"
+}
