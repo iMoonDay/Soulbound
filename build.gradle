@@ -53,7 +53,7 @@ dependencies {
     modImplementation "dev.emi:trinkets:3.7.0"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.2.0"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.2.0"
-    modImplementation "maven.modrinth:travelersbackpack:XFdxMe7g"
+    modImplementation "maven.modrinth:travelersbackpack:C78BanYS"
     }
 
 processResources {

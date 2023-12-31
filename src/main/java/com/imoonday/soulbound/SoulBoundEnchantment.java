@@ -162,7 +162,6 @@ public class SoulBoundEnchantment extends Enchantment {
                             ComponentUtils.getComponent(newPlayer).setWearable(backpack);
                             ComponentUtils.getComponent(newPlayer).setContents(backpack);
                             ComponentUtils.sync(newPlayer);
-                            ComponentUtils.syncToTracking(newPlayer);
                         }
                     }
                 }
